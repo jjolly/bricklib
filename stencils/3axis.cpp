@@ -78,11 +78,11 @@ void d3pt7() {
   std::cout << "d3pt7" << std::endl;
   std::cout << "Arr: " << time_func(arr_func) << std::endl;
   std::cout << "Bri: " << time_func(brick_func) << std::endl;
-  if (!compareBrick<3>({N, N, N}, {PADDING,PADDING,PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING,PADDING,PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
     throw std::runtime_error("result mismatch!");
   std::cout << "Arr Scatter: " << time_func(arr_tile_func) << std::endl;
   std::cout << "Trans: " << time_func(brick_func_trans) << std::endl;
-  if (!compareBrick<3>({N, N, N}, {PADDING,PADDING,PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING,PADDING,PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
     throw std::runtime_error("result mismatch!");
 
   free(in_ptr);
@@ -153,7 +153,7 @@ void d3cond() {
   std::cout << "Arr: " << time_func(arr_func) << std::endl;
   std::cout << "Bri: " << time_func(brick_func) << std::endl;
   std::cout << "Trans: " << time_func(brick_func_trans) << std::endl;
-  if (!compareBrick<3>({N, N, N}, {PADDING,PADDING,PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING,PADDING,PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
     throw std::runtime_error("result mismatch!");
 
   free(in_ptr);
@@ -237,7 +237,7 @@ void d3pt27() {
   std::cout << "d3pt27" << std::endl;
   std::cout << "Arr: " << time_func(arr_func) << std::endl;
   std::cout << "Bri: " << time_func(brick_func) << std::endl;
-  if (!compareBrick<3>({N, N, N}, {PADDING,PADDING,PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING,PADDING,PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
     throw std::runtime_error("result mismatch!");
 
   free(in_ptr);

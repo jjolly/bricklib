@@ -8,21 +8,21 @@
 #include <omp.h>
 #include "brick.h"
 
-#define N 256
+#define BRK_N 256
 #define TILE 8
 
 #define GZ TILE
 #define PADDING 8
 
 // Stride for arrays is GHOSTZONE + PADDING on each side
-#define STRIDE (N + 2 * (GZ + PADDING))
-#define STRIDEG (N + 2 * GZ)
+#define STRIDE (BRK_N + 2 * (GZ + PADDING))
+#define STRIDEG (BRK_N + 2 * GZ)
 
-#define NB (N / TILE)
+#define NB (BRK_N / TILE)
 #define GB (GZ / TILE)
 
 // Stride for bricks is GHOSTZONE on each side
-#define STRIDEB ((N + 2 * GZ) / TILE)
+#define STRIDEB ((BRK_N + 2 * GZ) / TILE)
 
 #define BDIM TILE,TILE,TILE
 #define TOT_TIME 5

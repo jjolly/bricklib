@@ -148,7 +148,7 @@ void d3pt7() {
   command_queue.flush();
   command_queue.finish();
 
-  if (!compareBrick<3>({N, N, N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr,
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr,
                        bOut)) {
     std::cout << "result mismatch!" << std::endl;
     // Identify mismatch

@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
         {-1, -3},    {-1, -2, -3}, {-1, -2},   {-1, -2, 3}, {-2, 3},   {-2},   {-2, -3},
         {1, -2, -3}, {1, -2},      {1, -2, 3}, {1, 3},      {3}};
 
-    BrickDecomp<3, BDIM> bDecomp({N, N, N}, GZ);
+    BrickDecomp<3, BDIM> bDecomp({BRK_N, BRK_N, BRK_N}, GZ);
     bDecomp.comm = cart;
     populate(cart, bDecomp, 0, 1, coo);
 
@@ -145,7 +145,7 @@ int main(int argc, char **argv) {
     };
 
     auto arr_func = [&]() -> void {
-      exchangeArr<3>(in_ptr, cart, bDecomp.rank_map, {N, N, N}, {PADDING, PADDING, PADDING},
+      exchangeArr<3>(in_ptr, cart, bDecomp.rank_map, {BRK_N, BRK_N, BRK_N}, {PADDING, PADDING, PADDING},
                      {GZ, GZ, GZ});
       for (int i = 0; i < 4; ++i) {
         array_stencil(arr_out, arr_in);
@@ -167,7 +167,7 @@ int main(int argc, char **argv) {
       std::cout << "pack " << packtime / cnt << std::endl;
       std::cout << "call " << calltime / cnt << std::endl;
       std::cout << "wait " << waittime / cnt << std::endl;
-      double perf = N / 1000.0;
+      double perf = BRK_N / 1000.0;
       perf = perf * perf * perf * 8 / total;
       std::cout << "perf " << perf << " GStencil/s" << std::endl;
       std::cout << std::endl;
@@ -182,12 +182,12 @@ int main(int argc, char **argv) {
       std::cout << "call " << calltime / cnt << std::endl;
       std::cout << "wait " << waittime / cnt << std::endl;
 
-      double perf = N / 1000.0;
+      double perf = BRK_N / 1000.0;
       perf = perf * perf * perf * 8 / total;
       std::cout << "perf " << perf << " GStencil/s" << std::endl;
     }
 
-    if (!compareBrick<3>({N, N, N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr,
+    if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr,
                          bOut))
       std::cout << "result mismatch!" << std::endl;
 

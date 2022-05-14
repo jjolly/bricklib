@@ -149,14 +149,14 @@ void d3pt7cu() {
   auto cuarr_warp = [&in_dev, &out_dev, &coeff_dev]() -> void {
     bElem(*arr_in)[STRIDE][STRIDE] = (bElem (*)[STRIDE][STRIDE]) in_dev;
     bElem(*arr_out)[STRIDE][STRIDE] = (bElem (*)[STRIDE][STRIDE]) out_dev;
-    dim3 block(N / 32, NB, NB), thread(32);
+    dim3 block(BRK_N / 32, NB, NB), thread(32);
     d3pt7_arr_warp << < block, thread >> > (arr_in, arr_out, coeff_dev);
   };
 
   auto cuarr_scatter = [&in_dev, &out_dev, &coeff_dev]() -> void {
     bElem(*arr_in)[STRIDE][STRIDE] = (bElem (*)[STRIDE][STRIDE]) in_dev;
     bElem(*arr_out)[STRIDE][STRIDE] = (bElem (*)[STRIDE][STRIDE]) out_dev;
-    dim3 block(N / 32, NB, NB), thread(32);
+    dim3 block(BRK_N / 32, NB, NB), thread(32);
     d3pt7_arr_scatter << < block, thread >> > (arr_in, arr_out, coeff_dev);
   };
 
@@ -179,13 +179,13 @@ void d3pt7cu() {
   cudaMemcpy(bStorage.dat.get(), bStorage_dev.dat.get(), bStorage.chunks * bStorage.step * sizeof(bElem), cudaMemcpyDeviceToHost);
   cudaDeviceSynchronize();
 
-  if (!compareBrick<3>({N, N, N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
     throw std::runtime_error("result mismatch!");
 
   cudaMemcpy(out_ptr, out_dev, size, cudaMemcpyDeviceToHost);
   cudaDeviceSynchronize();
 
-  if (!compareBrick<3>({N, N, N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
     throw std::runtime_error("result mismatch!");
 
   free(in_ptr);
@@ -332,13 +332,13 @@ void d3condcu() {
   cudaMemcpy(bStorage.dat.get(), bStorage_dev.dat.get(), bStorage.chunks * bStorage.step * sizeof(bElem), cudaMemcpyDeviceToHost);
   cudaDeviceSynchronize();
 
-  if (!compareBrick<3>({N, N, N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
     throw std::runtime_error("result mismatch!");
 
   cudaMemcpy(out_ptr, out_dev, size, cudaMemcpyDeviceToHost);
   cudaDeviceSynchronize();
 
-  if (!compareBrick<3>({N, N, N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
+  if (!compareBrick<3>({BRK_N, BRK_N, BRK_N}, {PADDING, PADDING, PADDING}, {GZ, GZ, GZ}, out_ptr, grid_ptr, bOut))
     throw std::runtime_error("result mismatch!");
 
   free(in_ptr);
