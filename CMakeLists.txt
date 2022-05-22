@@ -99,6 +99,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 
 option(BUILD_ARCH "Specify build architecture target" "native")
 
+message(STATUS "Checking build architecture ${BUILD_ARCH}")
 check_cxx_compiler_flag("-march=${BUILD_ARCH}" HAS_MARCH)
 if (HAS_MARCH)
     message(STATUS "Using march=${BUILD_ARCH}")
