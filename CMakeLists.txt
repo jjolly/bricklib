@@ -123,6 +123,15 @@ else ()
     endif ()
 endif ()
 
+option(BRICK_INSTALL_TESTDIR "Specify install path for test programs" OFF)
+
+if (NOT BRICK_INSTALL_TESTDIR)
+    message(STATUS "No install path for test programs specified")
+else ()
+    message(STATUS "Using specified install path for test programs of '${BRICK_INSTALL_TESTDIR}'")
+    set(BRICK_INSTALL_TESTDIR "${CMAKE_INSTALL_PREFIX}/${BRICK_INSTALL_TESTDIR}")
+endif ()
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler \"${CMAKE_CXX_FLAGS}\"")
 set(CMAKE_HIP_FLAGS "${OpenMP_CXX_FLAGS}")

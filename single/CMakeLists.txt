@@ -3,11 +3,19 @@ add_executable(single-cpu cpu.cpp ${VSTARGET_N3AXIS_OUTPUT} ../stencils/copy.cpp
 target_link_libraries(single-cpu brickhelper)
 set_target_properties(single-cpu
         PROPERTIES OUTPUT_NAME cpu)
+if (BRICK_INSTALL_TESTDIR)
+    install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cpu"
+        DESTINATION "${BRICK_INSTALL_TESTDIR}/single")
+endif ()
 
 add_executable(single-mpi mpi.cpp ../src/brick-mpi.cpp)
 target_link_libraries(single-mpi brick brickhelper ${MPI_CXX_LIBRARIES})
 set_target_properties(single-mpi
         PROPERTIES OUTPUT_NAME mpi)
+if (BRICK_INSTALL_TESTDIR)
+    install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/mpi"
+        DESTINATION "${BRICK_INSTALL_TESTDIR}/single")
+endif ()
 
 if (HAS_SYCL)
     set(SYCL3AXIS_INCLUDE_DIRS
@@ -28,6 +36,10 @@ if (HAS_SYCL)
     target_link_options(single-sycl PUBLIC "-fsycl")
     set_target_properties(single-sycl
             PROPERTIES OUTPUT_NAME sycl)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/sycl"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/single")
+    endif ()
 endif ()
 
 if (OpenCL_FOUND)
@@ -41,6 +53,10 @@ if (OpenCL_FOUND)
     add_dependencies(single-opencl cl3axis)
     set_target_properties(single-opencl
             PROPERTIES OUTPUT_NAME opencl)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/opencl"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/single")
+    endif ()
 endif ()
 
 if (CMAKE_CUDA_COMPILER)
@@ -55,6 +71,10 @@ if (CMAKE_CUDA_COMPILER)
     target_include_directories(single-cuda PUBLIC
             "${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}"
             )
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cuda"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/single")
+    endif ()
 endif ()
 
 if (USE_HIP)
@@ -66,6 +86,10 @@ if (USE_HIP)
     target_link_libraries(single-hip brickhelper hip::host)
     set_target_properties(single-hip
             PROPERTIES OUTPUT_NAME hip)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/hip"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/single")
+    endif ()
 endif ()
 
 if (USE_DPC)
@@ -79,5 +103,9 @@ if (USE_DPC)
    target_link_libraries(single-dpc brickhelper)
    target_include_directories(single-dpc PUBLIC "$(which dpcpp)/../../include/sycl/")
    set_target_properties(single-dpc PROPERTIES OUTPUT_NAME dpc)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/dpc"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/single")
+    endif ()
 endif ()
 

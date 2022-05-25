@@ -3,6 +3,10 @@ add_executable(strong-cpu ${VSTARGET_N3MPI_OUTPUT} args.cpp)
 target_link_libraries(strong-cpu brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT})
 set_target_properties(strong-cpu
         PROPERTIES OUTPUT_NAME cpu)
+if (BRICK_INSTALL_TESTDIR)
+    install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cpu"
+        DESTINATION "${BRICK_INSTALL_TESTDIR}/strong")
+endif ()
 
 if(CMAKE_CUDA_COMPILER)
     include_directories(
@@ -14,6 +18,10 @@ if(CMAKE_CUDA_COMPILER)
     target_link_libraries(strong-cuda brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT})
     set_target_properties(strong-cuda
             PROPERTIES OUTPUT_NAME cuda)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cuda"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/strong")
+    endif ()
 
     include_directories(
             ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES}
@@ -23,5 +31,9 @@ if(CMAKE_CUDA_COMPILER)
     target_link_libraries(strong-cuda-mmap brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT} cuda)
     set_target_properties(strong-cuda-mmap
             PROPERTIES OUTPUT_NAME cuda-mmap)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cuda-mmap"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/strong")
+    endif ()
 endif ()
 

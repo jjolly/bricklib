@@ -3,18 +3,30 @@ add_executable(weak-cpu ${VSTARGET_N3MPI_OUTPUT} args.cpp)
 target_link_libraries(weak-cpu brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT})
 set_target_properties(weak-cpu
         PROPERTIES OUTPUT_NAME cpu)
+if (BRICK_INSTALL_TESTDIR)
+    install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cpu"
+        DESTINATION "${BRICK_INSTALL_TESTDIR}/weak")
+endif ()
 
 VSTARGET(N4MPI main-4d.cpp main-4d-out.cpp)
 add_executable(weak-cpu-4d ${VSTARGET_N4MPI_OUTPUT} args.cpp)
 target_link_libraries(weak-cpu-4d brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT})
 set_target_properties(weak-cpu-4d
         PROPERTIES OUTPUT_NAME cpu-4d)
+if (BRICK_INSTALL_TESTDIR)
+    install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cpu-4d"
+        DESTINATION "${BRICK_INSTALL_TESTDIR}/weak")
+endif ()
 
 VSTARGET(N3MPI_ONESIDED onesided.cpp onesided-out.cpp)
 add_executable(weak-onesided ${VSTARGET_N3MPI_ONESIDED_OUTPUT})
 target_link_libraries(weak-onesided brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT})
 set_target_properties(weak-onesided
         PROPERTIES OUTPUT_NAME onesided)
+if (BRICK_INSTALL_TESTDIR)
+    install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/onesided"
+        DESTINATION "${BRICK_INSTALL_TESTDIR}/weak")
+endif ()
 
 VSTARGET(N3MPI_SHMEM shmem.cpp shmem-out.cpp)
 add_executable(weak-shmem EXCLUDE_FROM_ALL ${VSTARGET_N3MPI_SHMEM_OUTPUT})
@@ -22,6 +34,12 @@ message(STATUS ${MPI_CXX_LIBRARIES})
 target_link_libraries(weak-shmem brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} /usr/lib/openmpi/liboshmem.so ${LIBRT})
 set_target_properties(weak-shmem
         PROPERTIES OUTPUT_NAME shmem)
+if (BRICK_INSTALL_TESTDIR)
+    install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/shmem"
+        EXCLUDE_FROM_ALL
+        COMPONENT weak-shmem
+        DESTINATION "${BRICK_INSTALL_TESTDIR}/weak")
+endif ()
 
 if(CMAKE_CUDA_COMPILER)
     include_directories(
@@ -33,12 +51,20 @@ if(CMAKE_CUDA_COMPILER)
     target_link_libraries(weak-cuda brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT})
     set_target_properties(weak-cuda
             PROPERTIES OUTPUT_NAME cuda)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cuda"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/weak")
+    endif ()
 
     VSTARGET(C3MPIMMAP mmap.cu mmap-out.cu)
     add_executable(weak-cuda-mmap ${VSTARGET_C3MPIMMAP_OUTPUT} args.cpp)
     target_link_libraries(weak-cuda-mmap brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT} cuda)
     set_target_properties(weak-cuda-mmap
             PROPERTIES OUTPUT_NAME cuda-mmap)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/cuda-mmap"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/weak")
+    endif ()
 endif ()
 
 if (USE_HIP)
@@ -50,6 +76,10 @@ if (USE_HIP)
     target_link_libraries(weak-hip brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT} hip::host)
     set_target_properties(weak-hip
             PROPERTIES OUTPUT_NAME hip)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/hip"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/weak")
+    endif ()
 
     set(H3MPIMMAP_INCLUDE_DIRS "${HIP_PATH}/include")
     VSTARGET(H3MPIMMAP mmap.hip.cpp mmap-out.hip.cpp)
@@ -59,4 +89,8 @@ if (USE_HIP)
     target_link_libraries(weak-hip-mmap brick brick-mpi brickhelper ${MPI_CXX_LIBRARIES} ${LIBRT} hip::host)
     set_target_properties(weak-hip-mmap
             PROPERTIES OUTPUT_NAME hip-mmap)
+    if (BRICK_INSTALL_TESTDIR)
+        install(PROGRAMS "${CMAKE_CURRENT_BINARY_DIR}/hip-mmap"
+            DESTINATION "${BRICK_INSTALL_TESTDIR}/weak")
+    endif ()
 endif ()
